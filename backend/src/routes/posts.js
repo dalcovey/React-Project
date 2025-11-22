@@ -42,7 +42,8 @@ export function postsRoutes(app) {
   })
   app.post('/api/v1/posts', requireAuth, async (req, res) => {
     try {
-      const post = await createPost(req.auth.sub, req.body)
+      const { imageURL, ...postData } = req.body // Extract imageURL from the request body
+      const post = await createPost(req.auth.sub, { ...postData, imageURL }) // Pass imageURL to the service
       return res.json(post)
     } catch (err) {
       console.error('error creating post', err)
@@ -51,7 +52,11 @@ export function postsRoutes(app) {
   })
   app.patch('/api/v1/posts/:id', requireAuth, async (req, res) => {
     try {
-      const post = await updatePost(req.auth.sub, req.params.id, req.body)
+      const { imageURL, ...updateData } = req.body // Extract imageURL from the request body
+      const post = await updatePost(req.auth.sub, req.params.id, {
+        ...updateData,
+        imageURL,
+      }) // Pass imageURL to the service
       return res.json(post)
     } catch (err) {
       console.error('error updating post', err)

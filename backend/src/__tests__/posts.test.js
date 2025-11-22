@@ -50,21 +50,21 @@ describe('getting a post', () => {
 describe('updating posts', () => {
   test('should update the specified property', async () => {
     await updatePost(testUser._id, createdSamplePosts[0]._id, {
-      contents: 'some content change',
+      ingredients: 'some content change',
     })
     const updatedPost = await Post.findById(createdSamplePosts[0]._id)
-    expect(updatedPost.contents).toEqual('some content change')
+    expect(updatedPost.ingredients).toEqual('some content change')
   })
   test('should not update other properties', async () => {
     await updatePost(testUser._id, createdSamplePosts[0]._id, {
-      contents: 'some content change',
+      ingredients: 'some content change',
     })
     const updatedPost = await Post.findById(createdSamplePosts[0]._id)
     expect(updatedPost.title).toEqual('Learning Redux')
   })
   test('should update the updatedAt timestamp', async () => {
     await updatePost(testUser._id, createdSamplePosts[0]._id, {
-      contents: 'some content change',
+      ingredients: 'some content change',
     })
     const updatedPost = await Post.findById(createdSamplePosts[0]._id)
     expect(updatedPost.updatedAt.getTime()).toBeGreaterThan(
@@ -73,7 +73,7 @@ describe('updating posts', () => {
   })
   test('should fail if the id does not exist', async () => {
     const post = await updatePost(testUser._id, '000000000000000000000000', {
-      contents: 'some content change',
+      ingredients: 'some content change',
     })
     expect(post).toEqual(null)
   })
@@ -129,7 +129,7 @@ describe('creating posts', () => {
   test('with all parameters should succeed', async () => {
     const post = {
       title: 'Hello Mongoose!',
-      contents: 'This post is stored in a MongoDB database using Mongoose.',
+      ingredients: 'This post is stored in a MongoDB database using Mongoose.',
       tags: ['mongoose', 'mongodb'],
     }
     const createdPost = await createPost(testUser._id, post)
@@ -141,7 +141,7 @@ describe('creating posts', () => {
   })
   test('without title should fail', async () => {
     const post = {
-      contents: 'Post with no title',
+      ingredients: 'Post with no title',
       tags: ['empty'],
     }
     try {

@@ -1,11 +1,19 @@
 import PropTypes from 'prop-types'
 import { User } from './User.jsx'
 
-export function Post({ title, contents, author: userId }) {
+export function Post({ title, ingredients, author: userId, imageURL }) {
   return (
     <article>
       <h3>{title}</h3>
-      <div>{contents}</div>
+      {imageURL && (
+        <img
+          src={imageURL}
+          alt={title}
+          style={{ maxWidth: '100%', height: 'auto' }}
+        />
+      )}{' '}
+      {/* Display image */}
+      <div>{ingredients}</div>
       {userId && (
         <em>
           <br />
@@ -15,8 +23,10 @@ export function Post({ title, contents, author: userId }) {
     </article>
   )
 }
+
 Post.propTypes = {
   title: PropTypes.string.isRequired,
-  contents: PropTypes.string,
+  ingredients: PropTypes.string,
   author: PropTypes.string,
+  imageURL: PropTypes.string, // Add imageURL to prop types
 }

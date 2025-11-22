@@ -3,8 +3,9 @@ const postSchema = new Schema(
   {
     title: { type: String, required: true },
     author: { type: Schema.Types.ObjectId, ref: 'user', required: true },
-    contents: String,
+    ingredients: { type: String },
     tags: [String],
+    imageURL: { type: String },
   },
   { timestamps: true },
 )
