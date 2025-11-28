@@ -3,10 +3,13 @@ import { CreatePost } from '../components/CreatePost.jsx'
 import { PostFilter } from '../components/PostFilter.jsx'
 import { PostSorting } from '../components/PostSorting.jsx'
 import { Header } from '../components/Header.jsx'
+import { Helmet } from 'react-helmet-async'
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { getPosts } from '../api/posts.js'
-import { useState } from 'react'
-export function Blog() {
+// import PropTypes from 'prop-types' // REMOVE
+
+export function Blog(/*REMOVE*/) {
   const [author, setAuthor] = useState('')
   const [sortBy, setSortBy] = useState('createdAt')
   const [sortOrder, setSortOrder] = useState('descending')
@@ -17,6 +20,13 @@ export function Blog() {
   const posts = postsQuery.data ?? []
   return (
     <div style={{ padding: 8 }}>
+      <Helmet>
+        <title>Recipe Book</title>
+        <meta
+          name='description'
+          content='A blog full of articles about full-stack React development.'
+        />
+      </Helmet>
       <Header />
       <br />
       <hr />
@@ -42,3 +52,8 @@ export function Blog() {
     </div>
   )
 }
+
+// REMOVE
+//Blog.propTypes = {
+//  initialData: PropTypes.shape(PostList.propTypes),
+//}

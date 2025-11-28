@@ -1,23 +1,37 @@
 import PropTypes from 'prop-types'
 import { User } from './User.jsx'
+import { Link } from 'react-router-dom'
+import slug from 'slug'
 
-export function Post({ title, ingredients, author: userId, imageURL }) {
+export function Post({
+  title,
+  ingredients,
+  author,
+  _id,
+  imageURL,
+  fullPost = false,
+}) {
   return (
     <article>
-      <h3>{title}</h3>
-      {imageURL && (
+      {fullPost ? (
+        <h3>{title}</h3>
+      ) : (
+        <Link to={`/posts/${_id}/${slug(title)}`}>
+          <h3>{title}</h3>
+        </Link>
+      )}
+      {fullPost && imageURL && (
         <img
           src={imageURL}
           alt={title}
           style={{ maxWidth: '100%', height: 'auto' }}
         />
-      )}{' '}
-      {/* Display image */}
-      <div>{ingredients}</div>
-      {userId && (
+      )}
+      {fullPost && <div>{ingredients}</div>}
+      {author && (
         <em>
-          <br />
-          Written by <User id={userId} />
+          {fullPost && <br />}
+          Written by <User id={author} />
         </em>
       )}
     </article>
@@ -28,5 +42,7 @@ Post.propTypes = {
   title: PropTypes.string.isRequired,
   ingredients: PropTypes.string,
   author: PropTypes.string,
-  imageURL: PropTypes.string, // Add imageURL to prop types
+  imageURL: PropTypes.string,
+  _id: PropTypes.string.isRequired,
+  fullPost: PropTypes.bool,
 }
