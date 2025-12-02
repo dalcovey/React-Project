@@ -2,7 +2,9 @@
   "root": true,
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    //I went off script and added es6 environment
+    "es6": true
   },
   "parserOptions": {
     "ecmaVersion": "latest",
