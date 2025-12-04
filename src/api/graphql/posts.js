@@ -6,6 +6,7 @@ export const POST_FIELDS = gql`
     ingredients
     imageURL
     tags
+    likes
     updatedAt
     createdAt
     author {
@@ -31,10 +32,21 @@ export const GET_POSTS_BY_AUTHOR = gql`
   }
 `
 export const CREATE_POST = gql`
-  mutation createPost($title: String!, $ingredients: String, $tags: [String!]) {
-    createPost(title: $title, ingredients: $ingredients, tags: $tags) {
+  mutation createPost(
+    $title: String!
+    $ingredients: String
+    $tags: [String!]
+    $imageURL: String
+  ) {
+    createPost(
+      title: $title
+      ingredients: $ingredients
+      tags: $tags
+      imageURL: $imageURL
+    ) {
       id
       title
+      imageURL
     }
   }
 `

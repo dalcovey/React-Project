@@ -21,6 +21,7 @@ export function Blog() {
   const posts = postsQuery.data ?? [] */
   const postsQuery = useGraphQLQuery(author ? GET_POSTS_BY_AUTHOR : GET_POSTS, {
     variables: { author, options: { sortBy, sortOrder } },
+    fetchPolicy: 'network-only', // Always fetch fresh data from server
   })
 
   const posts = postsQuery.data?.postsByAuthor ?? postsQuery.data?.posts ?? []
@@ -48,7 +49,7 @@ export function Blog() {
       />
       <br />
       <PostSorting
-        fields={['createdAt', 'updatedAt']}
+        fields={['createdAt', 'updatedAt', 'likes']}
         value={sortBy}
         onChange={(value) => setSortBy(value)}
         orderValue={sortOrder}

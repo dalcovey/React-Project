@@ -6,6 +6,8 @@ import {
   updatePost,
   deletePost,
   getPostById,
+  likePost,
+  unlikePost,
 } from '../services/posts.js'
 import { requireAuth } from '../middleware/jwt.js'
 export function postsRoutes(app) {
@@ -70,6 +72,26 @@ export function postsRoutes(app) {
       return res.status(204).end()
     } catch (err) {
       console.error('error deleting post', err)
+      return res.status(500).end()
+    }
+  })
+  app.post('/api/v1/posts/:id/like', requireAuth, async (req, res) => {
+    try {
+      const post = await likePost(req.params.id)
+      if (!post) return res.sendStatus(404)
+      return res.json(post)
+    } catch (err) {
+      console.error('error liking post', err)
+      return res.status(500).end()
+    }
+  })
+  app.post('/api/v1/posts/:id/unlike', requireAuth, async (req, res) => {
+    try {
+      const post = await unlikePost(req.params.id)
+      if (!post) return res.sendStatus(404)
+      return res.json(post)
+    } catch (err) {
+      console.error('error unliking post', err)
       return res.status(500).end()
     }
   })

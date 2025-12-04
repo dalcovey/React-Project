@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose'
+
 const postSchema = new Schema(
   {
     title: { type: String, required: true },
@@ -6,7 +7,9 @@ const postSchema = new Schema(
     ingredients: { type: String },
     tags: [String],
     imageURL: { type: String },
+    likes: { type: Number, default: 0 },
   },
   { timestamps: true },
 )
+
 export const Post = mongoose.model('post', postSchema)
