@@ -30,10 +30,7 @@ export function Blog() {
     <div style={{ padding: 8 }}>
       <Helmet>
         <title>Recipe Book</title>
-        <meta
-          name='description'
-          content='A blog full of articles about full-stack React development.'
-        />
+        <meta name='description' content='An online book of recipes.' />
       </Helmet>
       <Header />
       <br />
