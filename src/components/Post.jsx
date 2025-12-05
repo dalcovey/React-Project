@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import slug from 'slug'
 import { useAuth } from '../contexts/AuthContext.jsx'
 import { useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 export function Post({
   title,
@@ -16,6 +17,7 @@ export function Post({
   likedByCurrentUser = false,
 }) {
   const [token] = useAuth()
+  const queryClient = useQueryClient()
   // Local state for optimistic UI (optional, can be replaced with mutation result)
   const [liked, setLiked] = useState(likedByCurrentUser)
   const [likeCount, setLikeCount] = useState(likes ?? 0)
@@ -37,6 +39,9 @@ export function Post({
       const updatedPost = await res.json()
       setLiked(!liked)
       setLikeCount(updatedPost.likes ?? likeCount)
+      // Invalidate queries to refetch updated like count everywhere
+      queryClient.invalidateQueries(['post', id])
+      queryClient.invalidateQueries(['posts'])
     } catch (err) {
       // Optionally show error to user
       console.error('Error updating like:', err)
