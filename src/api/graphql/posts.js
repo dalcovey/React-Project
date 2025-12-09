@@ -46,7 +46,15 @@ export const CREATE_POST = gql`
     ) {
       id
       title
+      ingredients
       imageURL
+      tags
+      likes
+      updatedAt
+      createdAt
+      author {
+        username
+      }
     }
   }
 `

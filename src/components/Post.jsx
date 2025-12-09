@@ -3,7 +3,7 @@ import { User } from './User.jsx'
 import { Link } from 'react-router-dom'
 import slug from 'slug'
 import { useAuth } from '../contexts/AuthContext.jsx'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 
 export function Post({
@@ -20,7 +20,16 @@ export function Post({
   const queryClient = useQueryClient()
   // Local state for optimistic UI (optional, can be replaced with mutation result)
   const [liked, setLiked] = useState(likedByCurrentUser)
-  const [likeCount, setLikeCount] = useState(likes ?? 0)
+  // Defensive: always use a valid number for likeCount
+  const initialLikeCount =
+    typeof likes === 'number' && !isNaN(likes) ? likes : 0
+  const [likeCount, setLikeCount] = useState(initialLikeCount)
+
+  // Sync local state with props when post changes
+  useEffect(() => {
+    setLikeCount(typeof likes === 'number' && !isNaN(likes) ? likes : 0)
+    setLiked(likedByCurrentUser)
+  }, [id, likes, likedByCurrentUser])
 
   const handleLikeToggle = async () => {
     if (!token) return
