@@ -44,8 +44,13 @@ export function postsRoutes(app) {
   })
   app.post('/api/v1/posts', requireAuth, async (req, res) => {
     try {
-      const { imageURL, ...postData } = req.body // Extract imageURL from the request body
-      const post = await createPost(req.auth.sub, { ...postData, imageURL }) // Pass imageURL to the service
+      const { imageURL, ...postData } = req.body
+      const post = await createPost(req.auth.sub, { ...postData, imageURL })
+      // Emit socket event to all clients
+      const io = req.app.get('io')
+      if (io) {
+        io.emit('postCreated', { post })
+      }
       return res.json(post)
     } catch (err) {
       console.error('error creating post', err)
@@ -54,11 +59,11 @@ export function postsRoutes(app) {
   })
   app.patch('/api/v1/posts/:id', requireAuth, async (req, res) => {
     try {
-      const { imageURL, ...updateData } = req.body // Extract imageURL from the request body
+      const { imageURL, ...updateData } = req.body
       const post = await updatePost(req.auth.sub, req.params.id, {
         ...updateData,
         imageURL,
-      }) // Pass imageURL to the service
+      })
       return res.json(post)
     } catch (err) {
       console.error('error updating post', err)

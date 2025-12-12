@@ -20,7 +20,7 @@ export const mutationResolver = {
     createPost: async (
       parent,
       { title, ingredients, tags, imageURL },
-      { auth },
+      { auth, app },
     ) => {
       if (!auth) {
         throw new GraphQLError(
@@ -32,7 +32,20 @@ export const mutationResolver = {
           },
         )
       }
-      return await createPost(auth.sub, { title, ingredients, tags, imageURL })
+      const post = await createPost(auth.sub, {
+        title,
+        ingredients,
+        tags,
+        imageURL,
+      })
+      // Emit socket.io event for all users
+      if (app && app.get) {
+        const io = app.get('io')
+        if (io) {
+          io.emit('postCreated', { post })
+        }
+      }
+      return post
     },
   },
 }

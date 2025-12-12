@@ -23,7 +23,7 @@ apolloServer.start().then(() =>
     optionalAuth,
     expressMiddleware(apolloServer, {
       context: async ({ req }) => {
-        return { auth: req.auth }
+        return { auth: req.auth, app: req.app }
       },
     }),
   ),
