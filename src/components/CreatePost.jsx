@@ -33,7 +33,6 @@ export function CreatePost() {
   const [postCreatedLink, setPostCreatedLink] = useState(null)
 
   useEffect(() => {
-    // Minimal socket.io-client test
     const socket = io(backendSocketUrl)
     socket.on('connect', () => {
       console.log('[socket.io] Connected to backend:', backendSocketUrl)
@@ -41,7 +40,7 @@ export function CreatePost() {
     socket.on('disconnect', () => {
       console.log('[socket.io] Disconnected from backend')
     })
-    // Keep the postCreated handler for later
+    // listen for postCreated events from the backend and set success message with link
     socket.on('postCreated', ({ post }) => {
       console.log('[socket.io] postCreated event received:', post)
       setPostCreatedMsg(`Post "${post.title}" created successfully!`)

@@ -38,7 +38,7 @@ export const mutationResolver = {
         tags,
         imageURL,
       })
-      // Emit socket.io event for all users
+      // Use socket.io to emit postCreated event for all users
       if (app && app.get) {
         const io = app.get('io')
         if (io) {

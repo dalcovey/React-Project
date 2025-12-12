@@ -9,6 +9,7 @@ let io
 try {
   await initDatabase()
   const PORT = process.env.PORT
+  // create http server with express and init socket.io server
   const server = createServer(app)
   io = new SocketIOServer(server, {
     cors: {
